@@ -59,3 +59,20 @@ section {
         flex-direction: column;
     }
 }
+#map {
+    height: 60vh;
+    border-radius: 10px;
+}
+
+#results {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.result-item {
+    transition: 0.2s;
+}
+
+.result-item:hover {
+    background: #e8f8f5;
+}

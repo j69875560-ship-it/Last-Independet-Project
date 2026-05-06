@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Map Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="controls">
+    <input type="text" id="searchInput" placeholder="Search (e.g. hospitals, cafes)">
+    
+    <select id="radius">
+        <option value="1000">1 km</option>
+        <option value="5000">5 km</option>
+        <option value="10000">10 km</option>
+    </select>
+
+    <select id="sortBy">
+        <option value="distance">Closest</option>
+        <option value="rating">Rating</option>
+        <option value="reviews">Reviews</option>
+    </select>
+
+    <button onclick="searchPlaces()">Search</button>
+</div>
+
+<div id="map"></div>
+<div id="results"></div>
+
+<script src="script.js"></script>
+
+<script async
+src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+</script>
+
+</body>
+</html>

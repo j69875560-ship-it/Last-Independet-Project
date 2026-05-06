@@ -1,36 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Smart Map Finder</title>
-    <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Facility Finder</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div id="controls">
-    <input type="text" id="searchInput" placeholder="Search (e.g. hospitals, cafes)">
-    
-    <select id="radius">
-        <option value="1000">1 km</option>
-        <option value="5000">5 km</option>
-        <option value="10000">10 km</option>
-    </select>
+<header>
+    <h1>Smart Facility Finder</h1>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="add.html">Add Place</a>
+    <a href="about.html">About</a>
+</nav>
+
+<main>
+
+<section>
+    <h2>Find Facilities</h2>
 
     <select id="sortBy">
         <option value="distance">Closest</option>
-        <option value="rating">Rating</option>
-        <option value="reviews">Reviews</option>
+        <option value="rating">Highest Rated</option>
+        <option value="reviews">Most Reviewed</option>
     </select>
 
-    <button onclick="searchPlaces()">Search</button>
-</div>
+    <button onclick="sortPlaces()">Sort</button>
+</section>
 
-<div id="map"></div>
-<div id="results"></div>
+<section id="map"></section>
 
-<script src="script.js"></script>
+<section>
+    <h2>Results</h2>
+    <div id="results"></div>
+</section>
+
+</main>
+
+<footer>
+    <p>© 2026 Smart Finder</p>
+</footer>
+
+<script src="style.css"></script>
 
 <script async
-src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
 </script>
 
 </body>

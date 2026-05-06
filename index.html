@@ -1,56 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Facility Finder</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
+    <header>
+      <h1>Smart Facility Finder</h1>
+    </header>
 
-<header>
-    <h1>Smart Facility Finder</h1>
-</header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="add.html">Add Place</a>
+      <a href="about.html">About</a>
+    </nav>
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="add.html">Add Place</a>
-    <a href="about.html">About</a>
-</nav>
+    <main>
+      <section>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search places (e.g. hospitals)"
+        />
 
-<main>
+        <select id="radius">
+          <option value="1000">1 km</option>
+          <option value="5000">5 km</option>
+          <option value="10000">10 km</option>
+        </select>
 
-<section>
-    <h2>Find Facilities</h2>
+        <select id="sortBy">
+          <option value="distance">Closest</option>
+          <option value="rating">Highest Rated</option>
+          <option value="reviews">Most Reviewed</option>
+        </select>
 
-    <select id="sortBy">
-        <option value="distance">Closest</option>
-        <option value="rating">Highest Rated</option>
-        <option value="reviews">Most Reviewed</option>
-    </select>
+        <button onclick="searchPlaces()">Search</button>
+      </section>
 
-    <button onclick="sortPlaces()">Sort</button>
-</section>
+      <section>
+        <h2>Find Facilities</h2>
 
-<section id="map"></section>
+        <select id="sortBy">
+          <option value="distance">Closest</option>
+          <option value="rating">Highest Rated</option>
+          <option value="reviews">Most Reviewed</option>
+        </select>
 
-<section>
-    <h2>Results</h2>
-    <div id="results"></div>
-</section>
+        <button onclick="sortPlaces()">Sort</button>
+      </section>
 
-</main>
+      <section id="map"></section>
 
-<footer>
-    <p>© 2026 Smart Finder</p>
-</footer>
+      <section>
+        <h2>Results</h2>
+        <div id="results"></div>
+      </section>
+    </main>
 
-<script src="style.css"></script>
+    <footer>
+      <p>© 2026 Smart Finder</p>
+    </footer>
 
-<script async
-src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
-</script>
+    <script src="style.css"></script>
 
-</body>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+    ></script>
+  </body>
 </html>

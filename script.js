@@ -117,6 +117,7 @@ function displayOSMResults(places) {
 
     // Result card
     const div = document.createElement("div");
+    <p>${place.description || "No description available"}</p>;
 
     div.className = "result-item";
 
@@ -253,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const type = document.getElementById("type").value;
       const rating = document.getElementById("rating").value;
       const reviews = document.getElementById("reviews").value;
-
+      const description = document.getElementById("description").value;
       if (!name || rating < 1 || rating > 5) {
         document.getElementById("message").textContent =
           "Please enter valid data";
@@ -261,14 +262,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       navigator.geolocation.getCurrentPosition((pos) => {
-        const place = {
-          name,
-          type,
-          rating: Number(rating),
-          reviews: Number(reviews),
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-        };
+       const place = {
+         name,
+         type,
+         rating: Number(rating),
+         reviews: Number(reviews),
+         description,
+         lat: pos.coords.latitude,
+         lng: pos.coords.longitude,
+       };
 
         let places = JSON.parse(localStorage.getItem("places")) || [];
 

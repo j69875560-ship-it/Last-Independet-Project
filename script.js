@@ -44,37 +44,47 @@ function initMap() {
 async function searchPlaces() {
   clearMarkers();
 
-  const keyword = document.getElementById("searchInput").value.toLowerCase();
+  const keyword = document
+    .getElementById("searchInput")
+    .value.trim()
+    .toLowerCase();
 
   const radius = document.getElementById("radius").value;
 
   const lat = userLocation[0];
   const lng = userLocation[1];
 
-  let tag = "";
-
-  // Convert search words into OSM tags
-  if (keyword.includes("cafe")) {
-    tag = "cafe";
-  } else if (keyword.includes("hospital")) {
-    tag = "hospital";
-  } else if (keyword.includes("restaurant")) {
-    tag = "restaurant";
-  } else if (keyword.includes("school")) {
-    tag = "school";
-  } else if (keyword.includes("gym")) {
-    tag = "fitness_centre";
-  } else {
-    alert("Try: cafe, hospital, restaurant, school, gym");
+  if (!keyword) {
+    alert("Please enter a facility to search");
     return;
   }
 
-  // Overpass API query
+  // Dynamic Overpass query
   const query = `
     [out:json];
+
     (
-      node["amenity"="${tag}"](around:${radius},${lat},${lng});
+      node
+      ["amenity"]
+      ["amenity"~"${keyword}",i]
+      (around:${radius},${lat},${lng});
+
+      node
+      ["shop"]
+      ["shop"~"${keyword}",i]
+      (around:${radius},${lat},${lng});
+
+      node
+      ["tourism"]
+      ["tourism"~"${keyword}",i]
+      (around:${radius},${lat},${lng});
+
+      node
+      ["leisure"]
+      ["leisure"~"${keyword}",i]
+      (around:${radius},${lat},${lng});
     );
+
     out;
   `;
 
@@ -91,6 +101,7 @@ async function searchPlaces() {
     displayOSMResults(data.elements);
   } catch (error) {
     console.error(error);
+
     alert("Search failed");
   }
 }
@@ -98,6 +109,7 @@ function displayOSMResults(places) {
   const results = document.getElementById("results");
 
   results.innerHTML = "";
+  document.getElementById("facilityCount").innerHTML = `(${places.length})`;
 
   if (places.length === 0) {
     results.innerHTML = "<p>No places found.</p>";
@@ -117,13 +129,19 @@ function displayOSMResults(places) {
 
     // Result card
     const div = document.createElement("div");
-    <p>${place.description || "No description available"}</p>;
 
     div.className = "result-item";
 
     div.innerHTML = `
       <strong>${place.tags.name || "Unnamed Place"}</strong><br>
-      Type: ${place.tags.amenity || "Unknown"}
+      📍 
+${
+  place.tags.amenity ||
+  place.tags.shop ||
+  place.tags.tourism ||
+  place.tags.leisure ||
+  "Facility"
+}
     `;
 
     // Zoom to marker
@@ -143,6 +161,7 @@ function displayResults(places) {
   clearMarkers();
 
   const results = document.getElementById("results");
+
   results.innerHTML = "";
 
   places.forEach((place) => {
@@ -155,23 +174,35 @@ function displayResults(places) {
     markers.push(marker);
 
     const div = document.createElement("div");
+
     div.className = "result-item";
 
     div.innerHTML = `
-  <h3>${place.tags.name || "Unnamed Place"}</h3>
+      <h3>${place.name}</h3>
 
-  <p>
-    📍 ${place.tags.amenity || "Facility"}
-  </p>
+      <p>
+        📍 ${place.type}
+      </p>
 
-  <p>
-    Click to view route
-  </p>
-`;
+      <p>
+        ⭐ ${place.rating} | 📝 ${place.reviews}
+      </p>
+
+      <p>
+        ${place.description || "No description available"}
+      </p>
+
+      <small>
+        Click to view route
+      </small>
+    `;
 
     div.onclick = () => {
       map.setView([place.lat, place.lng], 16);
+
       marker.openPopup();
+
+      showRoute(place.lat, place.lng);
     };
 
     results.appendChild(div);
@@ -242,7 +273,9 @@ function sortPlaces() {
 
 // Add place form
 document.addEventListener("DOMContentLoaded", () => {
-  initMap();
+  if (document.getElementById("map")) {
+    initMap();
+  }
 
   const form = document.getElementById("placeForm");
 
@@ -262,15 +295,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       navigator.geolocation.getCurrentPosition((pos) => {
-       const place = {
-         name,
-         type,
-         rating: Number(rating),
-         reviews: Number(reviews),
-         description,
-         lat: pos.coords.latitude,
-         lng: pos.coords.longitude,
-       };
+        const place = {
+          name,
+          type,
+          rating: Number(rating),
+          reviews: Number(reviews),
+          description,
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        };
 
         let places = JSON.parse(localStorage.getItem("places")) || [];
 

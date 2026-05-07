@@ -271,6 +271,18 @@ function sortPlaces() {
   displayResults(places);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+
+  if (searchInput) {
+    searchInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        searchPlaces();
+      }
+    });
+  }
+});
+
 // Add place form
 document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("map")) {

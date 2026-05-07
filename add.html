@@ -1,54 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Place</title>
+    <title>Add Facility</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-    <h1>Add a Facility</h1>
-</header>
+    <!-- HEADER -->
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="add.html">Add Place</a>
-    <a href="about.html">About</a>
-</nav>
+    <header>
+        <h1>Smart Facility Finder</h1>
+        <p>Add a new facility to the map</p>
+    </header>
 
-<main>
+    <!-- NAVIGATION -->
 
-<section>
-    <form id="placeForm">
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="add.html" class="active">Add Place</a>
+        <a href="about.html">About</a>
+    </nav>
 
-        <label>Name:</label>
-        <input type="text" id="name" required>
+    <!-- MAIN -->
 
-        <label>Type:</label>
-        <input type="text" id="type" required>
+    <main class="form-page">
 
-        <label>Rating (1-5):</label>
-        <input type="number" id="rating" min="1" max="5" required>
+        <!-- FORM CARD -->
 
-        <label>Reviews:</label>
-        <input type="number" id="reviews" required>
+        <section class="form-container">
 
-        <button type="submit">Add Place</button>
-    </form>
+            <h2>Add Facility</h2>
 
-    <p id="message"></p>
-</section>
+            <p class="form-description">
+                Enter details about a facility so it can appear on the map.
+            </p>
 
-</main>
+            <form id="placeForm">
 
-<footer>
-    <p>© 2026 Smart Finder</p>
-</footer>
+                <!-- NAME -->
 
-<script src="script.js"></script>
+                <div class="form-group">
+                    <label for="name">Facility Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="e.g. Java House"
+                        required
+                    >
+                </div>
+
+                <!-- TYPE -->
+
+                <div class="form-group">
+                    <label for="type">Facility Type</label>
+
+                    <select id="type" required>
+                        <option value="">Select type</option>
+                        <option value="cafe">Cafe</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="hospital">Hospital</option>
+                        <option value="school">School</option>
+                        <option value="gym">Gym</option>
+                    </select>
+                </div>
+
+                <!-- RATING -->
+
+                <div class="form-group">
+                    <label for="rating">Rating (1 - 5)</label>
+
+                    <input
+                        type="number"
+                        id="rating"
+                        min="1"
+                        max="5"
+                        placeholder="4"
+                        required
+                    >
+                </div>
+
+                <!-- REVIEWS -->
+
+                <div class="form-group">
+                    <label for="reviews">Number of Reviews</label>
+
+                    <input
+                        type="number"
+                        id="reviews"
+                        min="0"
+                        placeholder="120"
+                        required
+                    >
+                </div>
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+                    <label for="description">Short Description</label>
+
+                    <textarea
+                        id="description"
+                        rows="4"
+                        placeholder="Describe this place..."
+                    ></textarea>
+                </div>
+
+                <!-- BUTTON -->
+
+                <button type="submit" class="submit-btn">
+                    ➕ Add Facility
+                </button>
+
+            </form>
+
+            <!-- SUCCESS / ERROR MESSAGE -->
+
+            <p id="message"></p>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>© 2026 Smart Facility Finder</p>
+    </footer>
+
+    <!-- JS -->
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>

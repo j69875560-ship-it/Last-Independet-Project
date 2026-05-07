@@ -26,7 +26,17 @@ function initMap() {
 
     map.setView(userLocation, 14);
 
-    L.marker(userLocation).addTo(map).bindPopup("Your Current Location");
+    const userIcon = L.divIcon({
+      className: "",
+      html: `<div class="pulse"></div>`,
+      iconSize: [20, 20],
+    });
+
+    L.marker(userLocation, {
+      icon: userIcon,
+    })
+      .addTo(map)
+      .bindPopup("You are here");
   });
 }
 
@@ -147,10 +157,16 @@ function displayResults(places) {
     div.className = "result-item";
 
     div.innerHTML = `
-      <strong>${place.name}</strong><br>
-      Type: ${place.type}<br>
-      ⭐ ${place.rating} | 📝 ${place.reviews}
-    `;
+  <h3>${place.tags.name || "Unnamed Place"}</h3>
+
+  <p>
+    📍 ${place.tags.amenity || "Facility"}
+  </p>
+
+  <p>
+    Click to view route
+  </p>
+`;
 
     div.onclick = () => {
       map.setView([place.lat, place.lng], 16);
@@ -161,7 +177,6 @@ function displayResults(places) {
   });
 }
 function showRoute(lat, lng) {
-  // Remove old route
   if (routingControl) {
     map.removeControl(routingControl);
   }
@@ -179,6 +194,21 @@ function showRoute(lat, lng) {
       return null;
     },
   }).addTo(map);
+
+  // Get route info
+  routingControl.on("routesfound", function (e) {
+    const route = e.routes[0];
+
+    const distanceKM = (route.summary.totalDistance / 1000).toFixed(2);
+
+    const timeMinutes = Math.round(route.summary.totalTime / 60);
+
+    document.getElementById("routeInfo").innerHTML = `
+      🚗 Distance: ${distanceKM} km
+      <br>
+      ⏱ Estimated Time: ${timeMinutes} mins
+    `;
+  });
 }
 
 // Load saved places

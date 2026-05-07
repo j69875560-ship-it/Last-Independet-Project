@@ -22,19 +22,33 @@
       <!-- LEFT SIDE -->
       <section class="map-section">
         <div class="controls">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search places (e.g. cafe)"
-          />
+          <!-- SEARCH INPUT -->
+
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search facilities, places, services..."
+            />
+          </div>
+
+          <!-- RADIUS -->
 
           <select id="radius">
-            <option value="1000">1 km</option>
-            <option value="5000">5 km</option>
-            <option value="10000">10 km</option>
+            <option value="1000">1 KM</option>
+
+            <option value="5000">5 KM</option>
+
+            <option value="10000">10 KM</option>
+
+            <option value="20000">20 KM</option>
           </select>
 
-          <button onclick="searchPlaces()">Search</button>
+          <!-- BUTTON -->
+
+          <button id="searchBtn" onclick="searchPlaces()">Search</button>
         </div>
 
         <div id="map"></div>

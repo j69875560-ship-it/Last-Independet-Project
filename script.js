@@ -1,101 +1,145 @@
 let map;
-let service;
 let markers = [];
-let userLocation;
-let directionsService;
-let directionsRenderer;
+let userLocation = [-1.286389, 36.817223]; // Nairobi default
+let routingControl;
 
 // Initialize map
 function initMap() {
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      userLocation = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
-      };
-      loadMap();
-    },
-    () => {
-      // fallback (Nairobi)
-      userLocation = { lat: -1.286389, lng: 36.817223 };
-      loadMap();
-    },
-  );
-}
+  map = L.map("map").setView(userLocation, 13);
 
-function loadMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: userLocation,
-    zoom: 14,
-  });
+  // OpenStreetMap tiles
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+  }).addTo(map);
 
-  service = new google.maps.places.PlacesService(map);
-
-  directionsService = new google.maps.DirectionsService();
-  directionsRenderer = new google.maps.DirectionsRenderer();
-  directionsRenderer.setMap(map);
-
-  // User marker
-  new google.maps.Marker({
-    position: userLocation,
-    map,
-    label: "You",
-  });
+  // User location marker
+  const userMarker = L.circleMarker(userLocation, {
+    radius: 10,
+    color: "blue",
+  }).addTo(map);
 
   loadSavedPlaces();
+
+  // Get actual user location
+  navigator.geolocation.getCurrentPosition((pos) => {
+    userLocation = [pos.coords.latitude, pos.coords.longitude];
+
+    map.setView(userLocation, 14);
+
+    L.marker(userLocation).addTo(map).bindPopup("Your Current Location");
+  });
 }
 
-// 🔍 SEARCH nearby places
-function searchPlaces() {
+// Search places
+async function searchPlaces() {
   clearMarkers();
 
-  const keyword = document.getElementById("searchInput").value;
+  const keyword = document.getElementById("searchInput").value.toLowerCase();
+
   const radius = document.getElementById("radius").value;
 
-  const request = {
-    location: userLocation,
-    radius: radius,
-    keyword: keyword,
-  };
+  const lat = userLocation[0];
+  const lng = userLocation[1];
 
-  service.nearbySearch(request, (results, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      processResults(results);
-    }
-  });
-}
+  let tag = "";
 
-// 🧠 Process + sort results
-function processResults(results) {
-  const sortBy = document.getElementById("sortBy").value;
-
-  results.forEach((place) => {
-    place.distance = getDistance(userLocation, place.geometry.location);
-  });
-
-  if (sortBy === "distance") {
-    results.sort((a, b) => a.distance - b.distance);
-  } else if (sortBy === "rating") {
-    results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  // Convert search words into OSM tags
+  if (keyword.includes("cafe")) {
+    tag = "cafe";
+  } else if (keyword.includes("hospital")) {
+    tag = "hospital";
+  } else if (keyword.includes("restaurant")) {
+    tag = "restaurant";
+  } else if (keyword.includes("school")) {
+    tag = "school";
+  } else if (keyword.includes("gym")) {
+    tag = "fitness_centre";
   } else {
-    results.sort(
-      (a, b) => (b.user_ratings_total || 0) - (a.user_ratings_total || 0),
-    );
+    alert("Try: cafe, hospital, restaurant, school, gym");
+    return;
   }
 
-  displayResults(results);
-}
+  // Overpass API query
+  const query = `
+    [out:json];
+    (
+      node["amenity"="${tag}"](around:${radius},${lat},${lng});
+    );
+    out;
+  `;
 
-// 📍 Show markers + list
-function displayResults(places) {
-  const container = document.getElementById("results");
-  container.innerHTML = "";
+  const url = "https://overpass-api.de/api/interpreter";
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: query,
+    });
+
+    const data = await response.json();
+
+    displayOSMResults(data.elements);
+  } catch (error) {
+    console.error(error);
+    alert("Search failed");
+  }
+}
+function displayOSMResults(places) {
+  const results = document.getElementById("results");
+
+  results.innerHTML = "";
+
+  if (places.length === 0) {
+    results.innerHTML = "<p>No places found.</p>";
+    return;
+  }
 
   places.forEach((place) => {
-    const marker = new google.maps.Marker({
-      map,
-      position: place.geometry.location,
-    });
+    const lat = place.lat;
+    const lng = place.lon;
+
+    // Marker
+    const marker = L.marker([lat, lng])
+      .addTo(map)
+      .bindPopup(place.tags.name || "Unnamed Place");
+
+    markers.push(marker);
+
+    // Result card
+    const div = document.createElement("div");
+
+    div.className = "result-item";
+
+    div.innerHTML = `
+      <strong>${place.tags.name || "Unnamed Place"}</strong><br>
+      Type: ${place.tags.amenity || "Unknown"}
+    `;
+
+    // Zoom to marker
+    div.onclick = () => {
+      map.setView([lat, lng], 17);
+
+      marker.openPopup();
+
+      showRoute(lat, lng);
+    };
+
+    results.appendChild(div);
+  });
+}
+// Display places
+function displayResults(places) {
+  clearMarkers();
+
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+
+  places.forEach((place) => {
+    const marker = L.marker([place.lat, place.lng]).addTo(map).bindPopup(`
+        <strong>${place.name}</strong><br>
+        ⭐ ${place.rating}<br>
+        📝 ${place.reviews}
+      `);
 
     markers.push(marker);
 
@@ -103,70 +147,76 @@ function displayResults(places) {
     div.className = "result-item";
 
     div.innerHTML = `
-            <strong>${place.name}</strong><br>
-            ⭐ ${place.rating || "N/A"} | 📝 ${place.user_ratings_total || 0}
-        `;
+      <strong>${place.name}</strong><br>
+      Type: ${place.type}<br>
+      ⭐ ${place.rating} | 📝 ${place.reviews}
+    `;
 
-    div.onclick = () => showRoute(place.geometry.location);
+    div.onclick = () => {
+      map.setView([place.lat, place.lng], 16);
+      marker.openPopup();
+    };
 
-    container.appendChild(div);
+    results.appendChild(div);
   });
 }
+function showRoute(lat, lng) {
+  // Remove old route
+  if (routingControl) {
+    map.removeControl(routingControl);
+  }
 
-// 🚗 Show shortest route
-function showRoute(destination) {
-  directionsService.route(
-    {
-      origin: userLocation,
-      destination: destination,
-      travelMode: "DRIVING",
+  routingControl = L.Routing.control({
+    waypoints: [L.latLng(userLocation[0], userLocation[1]), L.latLng(lat, lng)],
+
+    routeWhileDragging: true,
+
+    lineOptions: {
+      styles: [{ color: "blue", weight: 6 }],
     },
-    (result, status) => {
-      if (status === "OK") {
-        directionsRenderer.setDirections(result);
-      }
+
+    createMarker: function () {
+      return null;
     },
-  );
+  }).addTo(map);
 }
 
-// 📦 Load user-added places (localStorage)
+// Load saved places
 function loadSavedPlaces() {
   const places = JSON.parse(localStorage.getItem("places")) || [];
 
-  places.forEach((place) => {
-    if (!place.lat || !place.lng) return;
-
-    const position = { lat: place.lat, lng: place.lng };
-
-    const marker = new google.maps.Marker({
-      position,
-      map,
-      icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-    });
-
-    markers.push(marker);
-  });
+  displayResults(places);
 }
 
-// 🧹 Clear markers
+// Clear markers
 function clearMarkers() {
-  markers.forEach((m) => m.setMap(null));
+  markers.forEach((marker) => map.removeLayer(marker));
   markers = [];
 }
 
-// 📏 Distance calculation
-function getDistance(loc1, loc2) {
-  const dx = loc1.lat - loc2.lat();
-  const dy = loc1.lng - loc2.lng();
-  return Math.sqrt(dx * dx + dy * dy);
+// Sort places
+function sortPlaces() {
+  let places = JSON.parse(localStorage.getItem("places")) || [];
+
+  const sortType = document.getElementById("sortBy").value;
+
+  if (sortType === "rating") {
+    places.sort((a, b) => b.rating - a.rating);
+  } else if (sortType === "reviews") {
+    places.sort((a, b) => b.reviews - a.reviews);
+  }
+
+  displayResults(places);
 }
 
-// 📝 FORM (add.html)
+// Add place form
 document.addEventListener("DOMContentLoaded", () => {
+  initMap();
+
   const form = document.getElementById("placeForm");
 
   if (form) {
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
 
       const name = document.getElementById("name").value;
@@ -175,7 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const reviews = document.getElementById("reviews").value;
 
       if (!name || rating < 1 || rating > 5) {
-        document.getElementById("message").textContent = "Invalid input!";
+        document.getElementById("message").textContent =
+          "Please enter valid data";
         return;
       }
 
@@ -190,11 +241,14 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         let places = JSON.parse(localStorage.getItem("places")) || [];
+
         places.push(place);
 
         localStorage.setItem("places", JSON.stringify(places));
 
-        document.getElementById("message").textContent = "Place added!";
+        document.getElementById("message").textContent =
+          "Place added successfully!";
+
         form.reset();
       });
     });

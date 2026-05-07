@@ -18,58 +18,53 @@
       <a href="about.html">About</a>
     </nav>
 
-    <main>
-      <section>
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Search places (e.g. hospitals)"
-        />
+    <main class="app-layout">
+      <!-- LEFT SIDE -->
+      <section class="map-section">
+        <div class="controls">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search places (e.g. cafe)"
+          />
 
-        <select id="radius">
-          <option value="1000">1 km</option>
-          <option value="5000">5 km</option>
-          <option value="10000">10 km</option>
-        </select>
+          <select id="radius">
+            <option value="1000">1 km</option>
+            <option value="5000">5 km</option>
+            <option value="10000">10 km</option>
+          </select>
 
-        <select id="sortBy">
-          <option value="distance">Closest</option>
-          <option value="rating">Highest Rated</option>
-          <option value="reviews">Most Reviewed</option>
-        </select>
+          <button onclick="searchPlaces()">Search</button>
+        </div>
 
-        <button onclick="searchPlaces()">Search</button>
+        <div id="map"></div>
+
+        <!-- Route info -->
+        <div id="routeInfo"></div>
       </section>
 
-      <section>
-        <h2>Find Facilities</h2>
+      <!-- RIGHT SIDE -->
+      <aside class="sidebar">
+        <h2>Nearby Facilities</h2>
 
-        <select id="sortBy">
-          <option value="distance">Closest</option>
-          <option value="rating">Highest Rated</option>
-          <option value="reviews">Most Reviewed</option>
-        </select>
-
-        <button onclick="sortPlaces()">Sort</button>
-      </section>
-
-      <section id="map"></section>
-
-      <section>
-        <h2>Results</h2>
         <div id="results"></div>
-      </section>
+      </aside>
     </main>
 
     <footer>
       <p>© 2026 Smart Finder</p>
     </footer>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-    <script src="style.css"></script>
+    <script src="./script.js"></script>
 
-    <script
-      async
-      src="https://maps.googleapis.com/maps/api/js?key=AQ.Ab8RN6KPDsxaKlUavkUh_PDb_x7l6ulvnBqxhwxZ5MBCMUZOyg&libraries=places&callback=initMap"
-    ></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"
+    />
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
   </body>
 </html>

@@ -1,229 +1,214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About | Smart Facility Finder</title>
 
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
-
+  <body>
     <!-- HEADER -->
 
     <header>
-        <h1>About Smart Facility Finder</h1>
-        <p>A Modern Facility Discovery and Navigation Web Application</p>
+      <h1>About Smart Facility Finder</h1>
+      <p>A Modern Facility Discovery and Navigation Web Application</p>
     </header>
 
     <!-- NAVIGATION -->
 
     <nav>
-        <a href="index.html">🏠 Home</a>
-        <a href="add.html">➕ Add Place</a>
-        <a href="about.html" class="active">ℹ About</a>
+      <a href="index.html">🏠 Home</a>
+      <a href="add.html">➕ Add Place</a>
+      <a href="about.html" class="active">ℹ About</a>
     </nav>
 
     <!-- MAIN CONTENT -->
 
     <main class="about-page">
+      <section class="about-card">
+        <h2>Live Project Stats</h2>
 
-        <!-- PROJECT OVERVIEW -->
+        <p id="stats"></p>
 
-        <section class="about-card">
+        <button onclick="toggleTheme()">Toggle Theme</button>
+      </section>
 
-            <h2>Project Overview</h2>
+      <!-- PROJECT OVERVIEW -->
 
+      <section class="about-card">
+        <h2>Project Overview</h2>
+
+        <p>
+          Smart Facility Finder is a web-based application developed to help
+          users easily discover nearby facilities such as cafés, hospitals,
+          gyms, restaurants, schools, and other important locations.
+        </p>
+
+        <p>
+          The project was designed with the goal of improving accessibility and
+          convenience when searching for facilities within a specific area. Many
+          users often struggle to quickly identify nearby services, estimate
+          travel distance, or determine the easiest route to reach a
+          destination. This application addresses that challenge by combining
+          interactive mapping, search functionality, routing, and dynamic
+          facility management into a single easy-to-use platform.
+        </p>
+
+        <p>
+          The system allows users to search for facilities in real time, display
+          them on an interactive map, calculate routes, estimate travel distance
+          and travel time, and organize facilities based on different criteria
+          such as ratings or reviews.
+        </p>
+      </section>
+
+      <!-- FEATURES -->
+
+      <section class="about-card">
+        <h2>Key Features</h2>
+
+        <ul class="feature-list">
+          <li>
+            📍 Interactive map integration using OpenStreetMap and Leaflet
+          </li>
+
+          <li>🔍 Real-time facility searching and filtering</li>
+
+          <li>🚗 Route generation and navigation between locations</li>
+
+          <li>📏 Estimated travel distance in kilometers</li>
+
+          <li>⏱ Estimated travel time calculations</li>
+
+          <li>📂 Facility data storage using localStorage</li>
+
+          <li>📱 Responsive user interface for desktop and mobile devices</li>
+
+          <li>⭐ Facility sorting based on ratings and reviews</li>
+
+          <li>📝 Ability for users to add custom facilities dynamically</li>
+        </ul>
+      </section>
+
+      <!-- TECHNOLOGIES -->
+
+      <section class="about-card">
+        <h2>Technologies Used</h2>
+
+        <p>
+          This project was built using core front-end web development
+          technologies and modern JavaScript mapping libraries.
+        </p>
+
+        <div class="tech-grid">
+          <div class="tech-item">
+            <h3>HTML5</h3>
             <p>
-                Smart Facility Finder is a web-based application developed to help
-                users easily discover nearby facilities such as cafés, hospitals,
-                gyms, restaurants, schools, and other important locations.
+              Used to structure the web pages using semantic and accessible
+              markup.
             </p>
+          </div>
 
+          <div class="tech-item">
+            <h3>CSS3</h3>
             <p>
-                The project was designed with the goal of improving accessibility
-                and convenience when searching for facilities within a specific
-                area. Many users often struggle to quickly identify nearby services,
-                estimate travel distance, or determine the easiest route to reach
-                a destination. This application addresses that challenge by combining
-                interactive mapping, search functionality, routing, and dynamic
-                facility management into a single easy-to-use platform.
+              Used for responsive layouts, styling, animations, and overall
+              visual design.
             </p>
+          </div>
 
+          <div class="tech-item">
+            <h3>JavaScript</h3>
             <p>
-                The system allows users to search for facilities in real time,
-                display them on an interactive map, calculate routes, estimate
-                travel distance and travel time, and organize facilities based
-                on different criteria such as ratings or reviews.
+              Used for DOM manipulation, event handling, local storage
+              functionality, and map interactions.
             </p>
+          </div>
 
-        </section>
-
-        <!-- FEATURES -->
-
-        <section class="about-card">
-
-            <h2>Key Features</h2>
-
-            <ul class="feature-list">
-
-                <li>📍 Interactive map integration using OpenStreetMap and Leaflet</li>
-
-                <li>🔍 Real-time facility searching and filtering</li>
-
-                <li>🚗 Route generation and navigation between locations</li>
-
-                <li>📏 Estimated travel distance in kilometers</li>
-
-                <li>⏱ Estimated travel time calculations</li>
-
-                <li>📂 Facility data storage using localStorage</li>
-
-                <li>📱 Responsive user interface for desktop and mobile devices</li>
-
-                <li>⭐ Facility sorting based on ratings and reviews</li>
-
-                <li>📝 Ability for users to add custom facilities dynamically</li>
-
-            </ul>
-
-        </section>
-
-        <!-- TECHNOLOGIES -->
-
-        <section class="about-card">
-
-            <h2>Technologies Used</h2>
-
+          <div class="tech-item">
+            <h3>Leaflet & OpenStreetMap</h3>
             <p>
-                This project was built using core front-end web development
-                technologies and modern JavaScript mapping libraries.
+              Used to implement real interactive maps, routing, and nearby
+              facility searches.
             </p>
+          </div>
+        </div>
+      </section>
 
-            <div class="tech-grid">
+      <!-- DEVELOPER -->
 
-                <div class="tech-item">
-                    <h3>HTML5</h3>
-                    <p>
-                        Used to structure the web pages using semantic and
-                        accessible markup.
-                    </p>
-                </div>
+      <section class="about-card">
+        <h2>Developer Information</h2>
 
-                <div class="tech-item">
-                    <h3>CSS3</h3>
-                    <p>
-                        Used for responsive layouts, styling, animations,
-                        and overall visual design.
-                    </p>
-                </div>
+        <p>
+          This project was developed by <strong>Johncarlos Mwenda</strong>
+          as part of the final independent project for the Moringa School
+          Software Engineering Bootcamp.
+        </p>
 
-                <div class="tech-item">
-                    <h3>JavaScript</h3>
-                    <p>
-                        Used for DOM manipulation, event handling,
-                        local storage functionality, and map interactions.
-                    </p>
-                </div>
+        <p>
+          The independent project required students to identify a real-world
+          problem and design a fully functional web application capable of
+          solving that problem using front-end development technologies.
+        </p>
 
-                <div class="tech-item">
-                    <h3>Leaflet & OpenStreetMap</h3>
-                    <p>
-                        Used to implement real interactive maps,
-                        routing, and nearby facility searches.
-                    </p>
-                </div>
+        <p>
+          Through the development of Smart Facility Finder, the project
+          demonstrates practical implementation of:
+        </p>
 
-            </div>
+        <ul class="feature-list">
+          <li>Semantic HTML structure</li>
 
-        </section>
+          <li>Responsive web design principles</li>
 
-        <!-- DEVELOPER -->
+          <li>JavaScript interactivity and DOM manipulation</li>
 
-        <section class="about-card">
+          <li>API and map integration</li>
 
-            <h2>Developer Information</h2>
+          <li>Local data persistence using localStorage</li>
 
-            <p>
-                This project was developed by <strong>Johncarlos Mwenda</strong>
-                as part of the final independent project for the
-                Moringa School Software Engineering Bootcamp.
-            </p>
+          <li>Dynamic user interaction and event handling</li>
+        </ul>
 
-            <p>
-                The independent project required students to identify a real-world
-                problem and design a fully functional web application capable of
-                solving that problem using front-end development technologies.
-            </p>
+        <p>
+          Special appreciation goes to the Technical Mentors
+          <strong>Jerlard</strong> and <strong>Josiah</strong>
+          for their guidance, mentorship, and support throughout the bootcamp
+          journey and project development process.
+        </p>
+      </section>
 
-            <p>
-                Through the development of Smart Facility Finder, the project
-                demonstrates practical implementation of:
-            </p>
+      <!-- FUTURE IMPROVEMENTS -->
 
-            <ul class="feature-list">
+      <section class="about-card">
+        <h2>Future Improvements</h2>
 
-                <li>Semantic HTML structure</li>
+        <p>Future versions of the application may include:</p>
 
-                <li>Responsive web design principles</li>
+        <ul class="feature-list">
+          <li>🌙 Dark mode support</li>
 
-                <li>JavaScript interactivity and DOM manipulation</li>
+          <li>🚶 Walking and cycling navigation modes</li>
 
-                <li>API and map integration</li>
+          <li>📡 Live traffic and congestion updates</li>
 
-                <li>Local data persistence using localStorage</li>
+          <li>🔔 Smart recommendations and AI-powered suggestions</li>
 
-                <li>Dynamic user interaction and event handling</li>
+          <li>🧭 Real-time GPS tracking</li>
 
-            </ul>
-
-            <p>
-                Special appreciation goes to the Technical Mentors
-                <strong>Jerlard</strong> and <strong>Josiah</strong>
-                for their guidance, mentorship, and support throughout
-                the bootcamp journey and project development process.
-            </p>
-
-        </section>
-
-        <!-- FUTURE IMPROVEMENTS -->
-
-        <section class="about-card">
-
-            <h2>Future Improvements</h2>
-
-            <p>
-                Future versions of the application may include:
-            </p>
-
-            <ul class="feature-list">
-
-                <li>🌙 Dark mode support</li>
-
-                <li>🚶 Walking and cycling navigation modes</li>
-
-                <li>📡 Live traffic and congestion updates</li>
-
-                <li>🔔 Smart recommendations and AI-powered suggestions</li>
-
-                <li>🧭 Real-time GPS tracking</li>
-
-                <li>👤 User authentication and cloud data storage</li>
-
-            </ul>
-
-        </section>
-
+          <li>👤 User authentication and cloud data storage</li>
+        </ul>
+      </section>
     </main>
 
     <!-- FOOTER -->
 
     <footer>
-        <p>© 2026 Smart Facility Finder | Developed by Johncarlos Mwenda</p>
+      <p>© 2026 Smart Facility Finder | Developed by Johncarlos Mwenda</p>
     </footer>
-
-</body>
-
+    <script src="script.js"></script>
+  </body>
 </html>

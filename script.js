@@ -64,25 +64,10 @@ async function searchPlaces() {
     [out:json];
 
     (
-      node
-      ["amenity"]
-      ["amenity"~"${keyword}",i]
-      (around:${radius},${lat},${lng});
-
-      node
-      ["shop"]
-      ["shop"~"${keyword}",i]
-      (around:${radius},${lat},${lng});
-
-      node
-      ["tourism"]
-      ["tourism"~"${keyword}",i]
-      (around:${radius},${lat},${lng});
-
-      node
-      ["leisure"]
-      ["leisure"~"${keyword}",i]
-      (around:${radius},${lat},${lng});
+     node["amenity"~"${keyword}", i](around:${radius},${lat},${lng});
+    node["shop"~"${keyword}", i](around:${radius},${lat},${lng});
+    node["tourism"~"${keyword}", i](around:${radius},${lat},${lng});
+     node["leisure"~"${keyword}", i](around:${radius},${lat},${lng}); 
     );
 
     out;
@@ -329,5 +314,18 @@ document.addEventListener("DOMContentLoaded", () => {
         form.reset();
       });
     });
+  }
+});
+// About.html
+function toggleTheme() {
+  document.body.classList.toggle("dark-mode");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const places = JSON.parse(localStorage.getItem("places")) || [];
+  const stats = document.getElementById("stats");
+
+  if (stats) {
+    stats.textContent = `Total saved facilities: ${places.length}`;
   }
 });

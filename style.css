@@ -76,3 +76,93 @@ section {
 .result-item:hover {
     background: #e8f8f5;
 }
+/* App layout */
+
+.app-layout {
+    display: flex;
+    height: 85vh;
+}
+
+/* LEFT */
+
+.map-section {
+    flex: 3;
+    padding: 10px;
+}
+
+/* RIGHT SIDEBAR */
+
+.sidebar {
+    flex: 1;
+    background: white;
+    overflow-y: auto;
+    border-left: 2px solid #ddd;
+    padding: 15px;
+}
+
+/* MAP */
+
+#map {
+    height: 75vh;
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* CONTROLS */
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.controls input,
+.controls select,
+.controls button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* RESULT CARD */
+
+.result-item {
+    background: #f8f9fa;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.result-item:hover {
+    background: #dff9fb;
+    transform: scale(1.02);
+}
+
+/* ROUTE INFO */
+
+#routeInfo {
+    margin-top: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .app-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        height: 300px;
+    }
+
+    #map {
+        height: 50vh;
+    }
+}
